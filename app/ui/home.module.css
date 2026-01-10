@@ -1,0 +1,35 @@
+.shape {
+    height: 0;
+    width: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 50px solid black;
+}
+
+@font-face {
+    font-family: 'Caviar Dreams';
+    src: url('/public/fonts/CaviarDreams.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Caviar Dreams';
+    src: url('/public/fonts/CaviarDreams_Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Caviar Dreams';
+    src: url('/public/fonts/CaviarDreams_BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Caviar Dreams';
+    src: url('/public/fonts/CaviarDreams_Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+  }

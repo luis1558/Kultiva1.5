@@ -1,0 +1,58 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "lint": "next lint",
+    "build:seed": "tsc ./app/seed/db.ts --outDir ./dist && mv ./dist/db.js ./dist/db.mjs",
+    "seed": "node -r dotenv/config ./app/seed/db.js",
+    "empleados": "node -r dotenv/config ./app/seed/empleados.js",
+    "jefe-empleado": "node -r dotenv/config ./app/seed/jefe-empleado.js",
+    "area": "node -r dotenv/config ./app/seed/area.js",
+    "cargo": "node -r dotenv/config ./app/seed/cargo.js",
+    "dimensiones": "node -r dotenv/config ./app/seed/dimensiones.js",
+    "planes-de-accion": "node -r dotenv/config ./app/seed/planes_de_accion.js",
+    "preguntas-encuesta": "node -r dotenv/config ./app/seed/preguntas_encuesta.js",
+    "crear-contraseña": "node -r dotenv/config ./app/seed/crear-contraseña.js"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.1.4",
+    "@libsql/client": "^0.14.0",
+    "@tailwindcss/forms": "^0.5.7",
+    "@vercel/postgres": "^0.8.0",
+    "autoprefixer": "10.4.19",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "jose": "^5.9.6",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "next": "^15.0.0",
+    "next-auth": "5.0.0-beta.25",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.9.16",
+    "postcss": "8.4.38",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "tailwindcss": "3.4.4",
+    "typescript": "5.5.2",
+    "use-debounce": "^10.0.1",
+    "xlsx": "^0.18.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "20.14.8",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "npm:types-react@19.0.0-rc.1",
+      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+    }
+  }
+}

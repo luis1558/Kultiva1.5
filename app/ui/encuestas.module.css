@@ -1,0 +1,218 @@
+/*  Estilos  */
+.container {
+  min-width: 600px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #f9f9f9; /* Fondo suave */
+}
+
+/* Estilos para cada dimensión */
+.dimensionContainer {
+  margin-bottom: 10px; /* Espaciado entre dimensiones */
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: white; /* Fondo blanco para cada sección */
+}
+
+.mainTitle {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dimensionTitle {
+  margin-bottom: 20px;
+  color: #1b1b1b;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tableContainer {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.surveyTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  background-color: #f6f6f6; /* Fondo ligero */
+  border-radius: 10px; /* Bordes redondeados */
+  overflow: hidden; /* Para que no se vea el borde dentro de la tabla */
+}
+
+.surveyTable tr {
+  border-bottom: 1px solid #a9a9a9;
+}
+
+.valoracion {
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.surveyTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.criteriaHeader {
+  background-color: #a9a9a9;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 10px 10px 0 0; /* Esquinas superiores redondeadas */
+}
+
+.scaleHeader {
+  background-color: #d3d3d3;
+  color: #333;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.scaleOption {
+  background-color: #d3d3d3;
+  color: #6a6a6a;
+  text-align: center;
+  padding: 10px;
+}
+
+.ratio {
+  appearance: none; /* Oculta el radio por defecto */
+  width: 18px;
+  height: 18px;
+  border: 2px solid #a9a9a9; /* Color del borde */
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  background-color: white;
+}
+
+.ratio:hover {
+    background-color: #b471c4; /* Color del radio al pasar el ratón */
+    border: 2px solid #c272d4; /* Color del borde al pasar el ratón */
+}   
+
+.ratio:checked {
+    background-color: #7C3C8B; /* Color del radio seleccionado */
+    border: 2px solid #7C3C8B; /* Color del borde seleccionado */
+}
+
+.ratio:checked:hover {
+    background-color: #7C3C8B;
+}
+
+.ratio::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: #f5f0ef; /* Color del círculo interior */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+
+.ratio:focus {
+    background-color: #7C3C8B;
+    box-shadow: 0 0 4px #D3D3D3; /* Cambia el color del borde al hacer clic */
+}
+
+
+
+.radioCell {
+  text-align: center;
+  padding: 10px;
+}
+
+.radioCell input[type="radio"] {
+  transform: scale(1.2);
+  accent-color: #a9a9a9; /* Personalización del color del radio */
+}
+
+/* Estilos para preguntas abiertas */
+.openQuestion {
+  margin-bottom: 20px;
+}
+
+.openQuestion label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #a9a9a9;
+  resize: none;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+}
+
+/* Botón */
+.submitButton {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #a9a9a9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #d3d3d3;
+  color: black;
+}
+
+/* Mensajes de error o confirmación */
+.alreadyResponded {
+  text-align: center;
+  color: #a9a9a9;
+  font-size: 1.5rem;
+  margin: 50px 0;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .surveyTable {
+    font-size: 12px;
+  }
+
+  .criteriaHeader,
+  .scaleHeader {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .scaleOption {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .radioCell {
+    padding: 5px;
+  }
+
+  .textarea {
+    font-size: 0.9rem;
+  }
+
+  .submitButton {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
