@@ -9,55 +9,12 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useUserRole } from "../../../hooks/useUserRole";
+import React from "react";
 
 const links = [
   { name: "Inicio", href: "/dashboard", icon: HomeIcon, roles: ['prueba'] },
   { name: "Instructivo", href: "/dashboard/instructivo", icon: DocumentCheckIcon, roles: [] },
-
-  //{ name: "Encuesta", href: "#", icon: DocumentDuplicateIcon, roles: [
-  //  'Team Leader',
-  //  'Medical Records Team Lead',
-  //  'Asc Ops Team Leader',
-  //  'Clearway Team Leader',
-  //  'Clearway Trainer',
-  //  'Account Manager',
-  //  'Senior Account Manager',
-  //  'BIS Corporate Trainer',
-  //  'Qa & Trainer',
-  //  'IT Professional',
-  //  'Gerente RH',
-
-  //] },
-
-  { name: "Encuesta", href: "/dashboard/valoracion-colaborador", icon: DocumentDuplicateIcon, roles: [
-    'Agent',
-    'Asc Agent',
-    'Asc Ops Agent',
-    'Credentialing Team Leader',
-    'Asc Sme',
-    'Asc Agent',
-    'Bd Sme',
-    'Credentialing Agent',
-    'HR Professional',
-    'Clearway Agent',
-    'Medical Support Sme',
-    'Ops Sme',
-    'Scheduling Agent',
-    'Clearway Sme',
-    'Scheduler Agent',
-    'HSEQ Leader',
-    'Communications Leader',
-    'HR Leader',
-    'Qa & Trainer',
-    'Coastal Sme',
-    'Account Manager',
-    'Sme',
-    'HR Business Partner',
-    'Trainer',
-    'IT Support',
-    'prueba',
-  ] },
 
   { name: "Resultados líder", href: "/dashboard/resultados-lider", icon: PresentationChartBarIcon, roles: [
     'Clearway Team Leader',
@@ -111,21 +68,8 @@ const links = [
 ];
 
 export default function NavLinks({ onLinkClick }: { onLinkClick: () => void }) {
-  const [role, setRole] = useState<string | null>(null);
+  const { role } = useUserRole();
   const pathname = usePathname();
-
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      const res = await fetch("/api/user-role");
-      if (res.ok) {
-        const data = await res.json();
-        setRole(data.user.role);
-      } else {
-        console.error("Error al obtener el rol del usuario");
-      }
-    };
-    fetchUserRole();
-  }, []);
 
   return (
     <>
