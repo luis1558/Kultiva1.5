@@ -1,0 +1,11 @@
+{
+  "/api/validate-reset-token/route": "app/api/validate-reset-token/route.js",
+  "/api/reset-password/route": "app/api/reset-password/route.js",
+  "/api/login/route": "app/api/login/route.js",
+  "/api/user/route": "app/api/user/route.js",
+  "/api/user-role/route": "app/api/user-role/route.js",
+  "/api/logout/route": "app/api/logout/route.js",
+  "/login/page": "app/login/page.js",
+  "/reset-password/page": "app/reset-password/page.js",
+  "/dashboard/page": "app/dashboard/page.js"
+}
