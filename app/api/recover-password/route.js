@@ -90,7 +90,7 @@ export async function POST(req) {
             overflow: hidden;
           }
           .header {
-            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            background: linear-gradient(135deg, #7C3E8F 0%, #6a347a 100%);
             color: white;
             padding: 40px 30px;
             text-align: center;
@@ -108,7 +108,7 @@ export async function POST(req) {
           .logo svg {
             width: 35px;
             height: 35px;
-            color: #16a34a;
+            color: #7C3E8F;
           }
           .content {
             padding: 40px 30px;
@@ -131,8 +131,8 @@ export async function POST(req) {
           }
           .reset-button {
             display: inline-block;
-            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-            color: white;
+            background: linear-gradient(135deg, #7C3E8F 0%, #6a347a 100%);
+            color: #ffffff !important;
             padding: 15px 30px;
             text-decoration: none;
             border-radius: 5px;
@@ -141,9 +141,9 @@ export async function POST(req) {
             transition: all 0.3s ease;
           }
           .reset-button:hover {
-            background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+            background: linear-gradient(135deg, #6a347a 0%, #5a2c6a 100%);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+            box-shadow: 0 4px 12px rgba(124, 62, 143, 0.3);
           }
           .footer {
             background: #f8f9fa;
@@ -205,7 +205,7 @@ export async function POST(req) {
             
             <p style="text-align: center; color: #666; font-size: 14px; margin-top: 20px;">
               Si el botón no funciona, copia y pega este enlace en tu navegador:<br>
-              <span style="word-break: break-all; color: #16a34a; font-family: monospace;">
+              <span style="word-break: break-all; color: #7C3E8F; font-family: monospace;">
                 ${resetURL}
               </span>
             </p>

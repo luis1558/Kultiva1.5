@@ -102,9 +102,9 @@ export default function ResetPasswordPage() {
 
   if (tokenValid === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7C3E8F] mx-auto"></div>
           <p className="mt-4 text-gray-600">Validando token...</p>
         </div>
       </div>
@@ -113,7 +113,7 @@ export default function ResetPasswordPage() {
 
   if (tokenValid === false) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100">
         <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
           <div className="mx-auto h-16 w-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
             <svg className="h-8 w-8 text-red-600" fill="currentColor" viewBox="0 0 20 20">
@@ -126,7 +126,7 @@ export default function ResetPasswordPage() {
           <button
             onClick={() => router.push("/login")}
             type="button"
-            className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-3 rounded-md hover:from-green-700 hover:to-green-800 transition-colors"
+            className="w-full bg-gradient-to-r from-[#7C3E8F] to-[#6a347a] text-white px-4 py-3 rounded-md hover:from-[#6a347a] hover:to-[#5a2c6a] transition-colors"
           >
             Volver al Login
           </button>
@@ -136,10 +136,10 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100">
       <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
         <div className="text-center mb-6">
-          <div className="mx-auto h-16 w-16 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto h-16 w-16 bg-gradient-to-r from-[#7C3E8F] to-[#6a347a] rounded-full flex items-center justify-center mb-4">
             <KeyIcon className="h-8 w-8 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Restablecer Contraseña</h2>
@@ -166,7 +166,7 @@ export default function ResetPasswordPage() {
                 onChange={(e) => setContraseña(e.target.value)}
                 required
                 minLength={6}
-                className="block w-full rounded-md border border-gray-300 py-3 pl-10 pr-10 text-sm placeholder-gray-400 focus:border-green-500 focus:ring-green-500 focus:outline-none"
+                className="block w-full rounded-md border border-gray-300 py-3 pl-10 pr-10 text-sm placeholder-gray-400 focus:border-[#7C3E8F] focus:ring-[#7C3E8F] focus:outline-none"
               />
               <KeyIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
               <button
@@ -200,7 +200,7 @@ export default function ResetPasswordPage() {
                 onChange={(e) => setConfirmarContraseña(e.target.value)}
                 required
                 minLength={6}
-                className="block w-full rounded-md border border-gray-300 py-3 pl-10 pr-10 text-sm placeholder-gray-400 focus:border-green-500 focus:ring-green-500 focus:outline-none"
+                className="block w-full rounded-md border border-gray-300 py-3 pl-10 pr-10 text-sm placeholder-gray-400 focus:border-[#7C3E8F] focus:ring-[#7C3E8F] focus:outline-none"
               />
               <KeyIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
               <button
@@ -222,7 +222,7 @@ export default function ResetPasswordPage() {
             <div
               className={`rounded-md p-4 ${
                 messageType === "success"
-                  ? "bg-green-50 text-green-800 border border-green-200"
+                  ? "bg-purple-50 text-purple-800 border border-purple-200"
                   : "bg-red-50 text-red-800 border border-red-200"
               }`}
             >
@@ -230,7 +230,7 @@ export default function ResetPasswordPage() {
                 <div className="flex-shrink-0">
                   {messageType === "success" ? (
                     <svg
-                      className="h-5 w-5 text-green-400"
+                      className="h-5 w-5 text-purple-400"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -265,7 +265,7 @@ export default function ResetPasswordPage() {
 
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 transition-all"
+            className="w-full bg-gradient-to-r from-[#7C3E8F] to-[#6a347a] text-white hover:from-[#6a347a] hover:to-[#5a2c6a] transition-all"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
@@ -302,7 +302,7 @@ export default function ResetPasswordPage() {
           <button
             onClick={() => router.push("/login")}
             type="button"
-            className="text-green-600 hover:text-green-700 text-sm font-medium"
+            className="text-[#7C3E8F] hover:text-[#6a347a] text-sm font-medium"
           >
             ← Volver al Login
           </button>

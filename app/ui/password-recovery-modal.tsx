@@ -61,7 +61,7 @@ export default function PasswordRecoveryModal({ isOpen, onClose }: PasswordRecov
 
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="mx-auto h-16 w-16 bg-gradient-to-r from-green-600 to-green-700 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto h-16 w-16 bg-gradient-to-r from-[#7C3E8F] to-[#6a347a] rounded-full flex items-center justify-center mb-4">
             <svg
               className="h-8 w-8 text-white"
               fill="none"
@@ -101,7 +101,7 @@ export default function PasswordRecoveryModal({ isOpen, onClose }: PasswordRecov
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="block w-full rounded-md border border-gray-300 py-3 pl-10 pr-3 text-sm placeholder-gray-400 focus:border-green-500 focus:ring-green-500 focus:outline-none"
+                 className="block w-full rounded-md border border-gray-300 py-3 pl-10 pr-3 text-sm placeholder-gray-400 focus:border-[#7C3E8F] focus:ring-[#7C3E8F] focus:outline-none"
               />
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg
@@ -127,7 +127,7 @@ export default function PasswordRecoveryModal({ isOpen, onClose }: PasswordRecov
             <div
               className={`rounded-md p-4 ${
                 messageType === "success"
-                  ? "bg-green-50 text-green-800 border border-green-200"
+                  ? "bg-purple-50 text-purple-800 border border-purple-200"
                   : messageType === "error"
                   ? "bg-red-50 text-red-800 border border-red-200"
                   : "bg-blue-50 text-blue-800 border border-blue-200"
@@ -137,7 +137,7 @@ export default function PasswordRecoveryModal({ isOpen, onClose }: PasswordRecov
                 <div className="flex-shrink-0">
                   {messageType === "success" ? (
                     <svg
-                      className="h-5 w-5 text-green-400"
+                      className="h-5 w-5 text-purple-400"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -188,14 +188,14 @@ export default function PasswordRecoveryModal({ isOpen, onClose }: PasswordRecov
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7C3E8F] transition-colors"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-3 rounded-md hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex-1 bg-gradient-to-r from-[#7C3E8F] to-[#6a347a] text-white px-4 py-3 rounded-md hover:from-[#6a347a] hover:to-[#5a2c6a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7C3E8F] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">

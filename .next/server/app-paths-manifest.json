@@ -1,13 +1,6 @@
 {
-  "/api/login/route": "app/api/login/route.js",
-  "/api/user/route": "app/api/user/route.js",
-  "/api/user-role/route": "app/api/user-role/route.js",
-  "/api/preguntas/route": "app/api/preguntas/route.js",
-  "/api/check-respuestas/route": "app/api/check-respuestas/route.js",
-  "/api/logout/route": "app/api/logout/route.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/login/page": "app/login/page.js",
-  "/page": "app/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/valoracion-colaborador/page": "app/dashboard/valoracion-colaborador/page.js"
+  "/reset-password/page": "app/reset-password/page.js",
+  "/dashboard/page": "app/dashboard/page.js"
 }
