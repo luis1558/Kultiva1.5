@@ -1,6 +1,6 @@
-import { nanoid } from 'nanoid';
-import { turso } from '../../seed/db';
-import nodemailer from 'nodemailer';
+import { nanoid } from "nanoid";
+import { turso } from "../../seed/db";
+import nodemailer from "nodemailer";
 
 export async function POST(req) {
   try {
@@ -11,14 +11,14 @@ export async function POST(req) {
     if (!correo) {
       return new Response(
         JSON.stringify({ message: "El correo es requerido" }),
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Verificar si el correo existe en la tabla empleados
     const userResult = await turso.execute(
       `SELECT nombre FROM empleados WHERE correo = ?`,
-      [correo.toLowerCase()]
+      [correo.toLowerCase()],
     );
 
     console.log(`Resultado de búsqueda para ${correo}:`, userResult.rows);
@@ -27,10 +27,11 @@ export async function POST(req) {
       console.log(`Correo no encontrado: ${correo}`);
       // Por seguridad, no revelamos si el correo existe o no
       return new Response(
-        JSON.stringify({ 
-          message: "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña" 
+        JSON.stringify({
+          message:
+            "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña",
         }),
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -39,13 +40,16 @@ export async function POST(req) {
 
     // Generar token único y expiración (1 hora)
     const resetToken = nanoid(32);
-    const expiresAt = Math.floor(Date.now() / 1000) + (60 * 60); // 1 hora desde ahora
+    const expiresAt = Math.floor(Date.now() / 1000) + 60 * 60; // 1 hora desde ahora
 
     // Guardar token en la base de datos
-    await turso.execute(`
+    await turso.execute(
+      `
       INSERT INTO password_resets (correo, token, expires_at, used) 
       VALUES (?, ?, ?, FALSE)
-    `, [correo.toLowerCase(), resetToken, expiresAt]);
+    `,
+      [correo.toLowerCase(), resetToken, expiresAt],
+    );
 
     console.log(`Token de recuperación generado para ${correo}: ${resetToken}`);
 
@@ -59,10 +63,11 @@ export async function POST(req) {
     });
 
     // URL de recuperación (ajustar para production)
-    const baseURL = process.env.NODE_ENV === 'production' 
-      ? 'https://kultiva-encuesta-clima.vercel.app'
-      : 'http://localhost:3000';
-    
+    const baseURL =
+      process.env.NODE_ENV === "production"
+        ? "https://kultiva-encuesta-clima.vercel.app"
+        : "http://localhost:3000";
+
     const resetURL = `${baseURL}/reset-password?token=${resetToken}`;
 
     // HTML template personalizado
@@ -174,18 +179,9 @@ export async function POST(req) {
       </head>
       <body>
         <div class="container">
-          <div class="header">
-            <div class="logo">
-              <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-            </div>
-            <h1 style="margin: 0; font-size: 28px; font-weight: 700;">Kultiva</h1>
-            <p style="margin: 5px 0 0; opacity: 0.9;">Encuesta de Clima Organizacional</p>
-          </div>
           
           <div class="content">
-            <h2 class="title">Recuperación de Contraseña</h2>
+            <h2 class="title">Recuperación de Contraseña Encuesta Clima Laboral</h2>
             
             <div class="message">
               <p>Hola <strong>${nombreUsuario}</strong>,</p>
@@ -241,17 +237,18 @@ export async function POST(req) {
     console.log("Correo de recuperación enviado exitosamente");
 
     return new Response(
-      JSON.stringify({ 
-        message: "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña" 
+      JSON.stringify({
+        message:
+          "Si el correo está registrado, recibirás un enlace para recuperar tu contraseña",
       }),
-      { status: 200 }
+      { status: 200 },
     );
-
   } catch (error) {
     console.error("Error en /api/recuperar-contraseña:", error);
     return new Response(
       JSON.stringify({ message: "Error al procesar la solicitud" }),
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
+

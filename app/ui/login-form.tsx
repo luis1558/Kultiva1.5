@@ -26,13 +26,13 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Validar que el checkbox de tratamiento de datos esté aceptado
     if (!acceptDataTreatment) {
       setMessage("Debes aceptar el tratamiento de tus datos para continuar");
       return;
     }
-    
+
     setIsSubmitting(true); // Desactiva el botón y activa la animación
 
     try {
@@ -174,19 +174,19 @@ export default function LoginForm() {
             ) : (
               <>
                 Ingresar{" "}
-                <svg 
-                  className="ml-auto h-5 w-5 text-gray-50" 
-                  fill="none" 
-                  stroke="currentColor" 
+                <svg
+                  className="ml-auto h-5 w-5 text-gray-50"
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title>Flecha derecha</title>
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M13 7l5 5m0 0l-5 5m5-5H6" 
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
                   />
                 </svg>
               </>
@@ -200,19 +200,19 @@ export default function LoginForm() {
           >
             <>
               Recuperar Contraseña{" "}
-              <svg 
-                className="ml-auto h-5 w-5 text-gray-50" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className="ml-auto h-5 w-5 text-gray-50"
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <title>Flecha derecha</title>
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M13 7l5 5m0 0l-5 5m5-5H6" 
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
                 />
               </svg>
             </>
@@ -227,11 +227,11 @@ export default function LoginForm() {
               checked={acceptDataTreatment}
               onChange={(e) => setAcceptDataTreatment(e.target.checked)}
             />
-            <label htmlFor="dataTreatment" className="text-sm text-gray-700">
+            <label htmlFor="dataTreatment" className="text-xs text-gray-700">
               Al responder esta encuesta, autorizas el tratamiento de tus datos
-              con fines de análisis de clima organizacional. Tus respuestas serán
-              confidenciales y los resultados se reportarán de forma agregada, sin
-              identificación individual.
+              con fines de análisis de clima organizacional. Tus respuestas
+              serán confidenciales y los resultados se reportarán de forma
+              agregada, sin identificación individual.
             </label>
           </div>
 
@@ -244,7 +244,7 @@ export default function LoginForm() {
           </div>
         </div>
       </form>
-      
+
       {/* Modal de recuperación de contraseña - FUERA del formulario principal */}
       <PasswordRecoveryModal
         isOpen={isRecoveryModalOpen}

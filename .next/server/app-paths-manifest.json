@@ -1,6 +1,10 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
+  "/api/recover-password/route": "app/api/recover-password/route.js",
+  "/api/validate-reset-token/route": "app/api/validate-reset-token/route.js",
+  "/api/reset-password/route": "app/api/reset-password/route.js",
   "/login/page": "app/login/page.js",
   "/reset-password/page": "app/reset-password/page.js",
-  "/dashboard/page": "app/dashboard/page.js"
+  "/dashboard/resultados-lider/page": "app/dashboard/resultados-lider/page.js",
+  "/dashboard/plan-de-accion-gerencia/page": "app/dashboard/plan-de-accion-gerencia/page.js",
+  "/dashboard/resultados-general/page": "app/dashboard/resultados-general/page.js"
 }
