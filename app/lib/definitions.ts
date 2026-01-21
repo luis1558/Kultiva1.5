@@ -86,3 +86,49 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+// Tipos para el dashboard de seguimiento de encuestas
+export type EmpleadoLider = {
+  empleado_id: number;
+  empleado_nombre: string;
+  empleado_correo: string;
+  respondio: boolean;
+  empleado_cargo: string;
+};
+
+export type LiderSeguimiento = {
+  lider_id: number;
+  lider_nombre: string;
+  lider_correo: string;
+  lider_cargo: string;
+  lider_area: string;
+  total_empleados: number;
+  empleados_respondieron: number;
+  empleados_pendientes: number;
+  porcentaje_progreso: number;
+  empleados: EmpleadoLider[];
+};
+
+export type EstadisticasGenerales = {
+  total_lideres: number;
+  total_empleados: number;
+  total_respondieron: number;
+  total_pendientes: number;
+  porcentaje_general: number;
+};
+
+export type Area = {
+  id: number;
+  area: string;
+};
+
+export type SeguimientoResponse = {
+  success: boolean;
+  data: {
+    lideres: LiderSeguimiento[];
+    generales: EstadisticasGenerales;
+    areas: Area[];
+  };
+  error?: string;
+  details?: string;
+};

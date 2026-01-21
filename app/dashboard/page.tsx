@@ -8,7 +8,7 @@ import { getEncuestaUrlByRole } from "../../utils/roleRouting";
 export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
-  const { role, loading } = useUserRole();
+  const { roles, loading } = useUserRole();
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,7 +22,7 @@ export default function Page() {
   }, []);
 
   const handleEncuestaClick = () => {
-    const url = getEncuestaUrlByRole(role);
+    const url = getEncuestaUrlByRole(roles);
     router.push(url);
   };
 

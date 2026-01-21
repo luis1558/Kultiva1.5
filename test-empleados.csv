@@ -1,0 +1,4 @@
+nombre,correo,contraseña,area,cargo,rol
+Juan Pérez,juan@empresa.com,password123,Tecnología,Desarrollador,employee
+María González,maria@empresa.com,password456,Tecnología,Team Leader,leader
+Carlos Rodríguez,carlos@empresa.com,password789,RH,Analista,employee

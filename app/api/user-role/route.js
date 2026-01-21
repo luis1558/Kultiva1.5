@@ -20,15 +20,17 @@ export async function GET() {
         const { payload } = await jwtVerify(token, SECRET_KEY);
         const userId = payload.id;
 
-        // Consulta los datos del usuario y su cargo
+        // Consulta los datos del usuario y sus roles
         const query = `
       SELECT 
         e.id AS empleado_id,
         e.nombre,
-        c.cargo AS role
+        GROUP_CONCAT(r.nombre, ', ') AS roles
       FROM empleados e
-      JOIN cargo c ON e.cargoid = c.id
+      LEFT JOIN rol_empleado re ON e.id = re.empleado_id
+      LEFT JOIN roles r ON re.rol_id = r.id
       WHERE e.id = ?
+      GROUP BY e.id, e.nombre
     `;
         const result = await turso.execute(query, [userId]);
 
@@ -37,6 +39,10 @@ export async function GET() {
         }
 
         const user = result.rows[0];
+        
+        // Convertir el string de roles a array
+        user.roles = user.roles ? user.roles.split(',').map(r => r.trim()) : [];
+        
         return NextResponse.json({ user }, { status: 200 });
     } catch (error) {
         console.error('Error en la verificación del token o consulta:', error);

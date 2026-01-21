@@ -1,0 +1,628 @@
+
+# AREA
+CREATE TABLE area (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  area TEXT NOT NULL
+);
+
+## CARGO
+CREATE TABLE cargo (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  cargo TEXT NOT NULL,
+  areaid INTEGER,
+  FOREIGN KEY (areaid) REFERENCES area(id)
+);
+
+## DIMENSIONES
+CREATE TABLE dimensiones (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dimensiones TEXT NOT NULL
+, sugerencia_1 TEXT, sugerencia_2 TEXT, sugerencia_3 TEXT, sugerencia_4TEXT, sugerencia_5TEXT);
+
+## EMPLEADOS
+CREATE TABLE empleados (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nombre TEXT NOT NULL,
+  correo TEXT NOT NULL UNIQUE,
+  contraseña TEXT NOT NULL,
+  cargoid INTEGER, cedula NUMERIC, genero TEXT CHECK (genero IN ('m', 'f')), fecha_nacimiento DATE, fecha_ingreso DATE, razon_social TEXT, ciudad TEXT, sede TEXT, nivel_jerarquico TEXT, encuesta TEXT, correo_enviado_plan BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (cargoid) REFERENCES cargo(id)
+);
+
+## JEFE_EMPLEADO
+CREATE TABLE jefe_empleado (
+  empleado_id INTEGER,
+  jefe_id INTEGER,
+  PRIMARY KEY (empleado_id, jefe_id),
+  FOREIGN KEY (empleado_id) REFERENCES empleados(id),
+  FOREIGN KEY (jefe_id) REFERENCES empleados(id)
+);
+
+# ROLES
+CREATE TABLE roles (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nombre TEXT UNIQUE NOT NULL
+);
+
+# ROL_EMPLEADO
+CREATE TABLE rol_empleado (
+  empleado_id INTEGER,
+  rol_id INTEGER,
+  PRIMARY KEY (empleado_id, rol_id),
+  FOREIGN KEY (empleado_id) REFERENCES empleados(id),
+  FOREIGN KEY (rol_id) REFERENCES roles(id)
+);
+
+## PASSWORD_RESETS
+CREATE TABLE password_resets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    correo TEXT NOT NULL,
+    token TEXT NOT NULL UNIQUE,
+    expires_at INTEGER NOT NULL,
+    used BOOLEAN DEFAULT FALSE,
+    created_at INTEGER DEFAULT (strftime('%s', 'now'))
+);
+
+## PLANES_DE_ACCION
+CREATE TABLE planes_de_accion (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    empleado_id INTEGER NOT NULL,
+    dimension_id INTEGER NOT NULL,
+    sugerencia_1 TEXT,
+    sugerencia_2 TEXT,
+    periodo_inicial_1 DATE,
+    periodo_final_1 DATE,
+    periodo_inicial_2 DATE,
+    periodo_final_2 DATE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (empleado_id) REFERENCES empleados(id),
+    FOREIGN KEY (dimension_id) REFERENCES dimensiones(id)
+);
+
+## PLANES_DE_ACCION_GERENCIA
+CREATE TABLE planes_de_accion_gerencia (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dimension_id INTEGER NOT NULL,
+    sugerencia_1 TEXT,
+    sugerencia_2 TEXT,
+    periodo_inicial_1 DATE,
+    periodo_final_1 DATE,
+    periodo_inicial_2 DATE,
+    periodo_final_2 DATE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (dimension_id) REFERENCES dimensiones(id)
+);
+
+## PREGUNTAS_ENCUESTA
+CREATE TABLE "preguntas_encuesta" (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pregunta TEXT NOT NULL,
+    dimension_id INTEGER,
+    FOREIGN KEY (dimension_id) REFERENCES dimensiones(id)
+);
+
+## RESPUESTAS_ENCUESTA
+CREATE TABLE respuestas_encuesta (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+jefe_id INTEGER NOT NULL,
+empleado_id INTEGER NOT NULL,
+pregunta_id INTEGER NOT NULL,
+respuesta REAL NOT NULL,  -- Cambié el tipo de INTEGER a REAL
+UNIQUE (jefe_id, empleado_id, pregunta_id),
+FOREIGN KEY (jefe_id, empleado_id) REFERENCES jefe_empleado(jefe_id, empleado_id),
+FOREIGN KEY (pregunta_id) REFERENCES preguntas_encuesta(id)
+);
+
+## SUGERENCIAS_GERENCIAS
+CREATE TABLE sugerencias_gerencias (
+    id INTEGER PRIMARY KEY,
+    dimensiones TEXT,
+    sugerencia_1 TEXT,
+    sugerencia_2 TEXT,
+    sugerencia_3 TEXT,
+    sugerencia_4 TEXT,
+    sugerencia_5 TEXT,
+    sugerencia_6 TEXT,
+    sugerencia_7 TEXT,
+    sugerencia_8 TEXT,
+    sugerencia_9 TEXT,
+    sugerencia_10 TEXT,
+    sugerencia_11 TEXT,
+    sugerencia_12 TEXT);
+
+## VW_BASE_RESPUESTAS
+CREATE VIEW vw_base_respuestas AS
+  SELECT
+    e1.cedula,
+    e1.nombre AS empleado,
+    c.cargo,
+    a.area,
+    e2.nombre AS jefe,
+    pe.pregunta,
+    d.dimensiones,
+    re.respuesta
+FROM respuestas_encuesta re
+JOIN empleados e1 ON re.empleado_id = e1.id
+JOIN empleados e2 ON re.jefe_id = e2.id
+JOIN cargo c ON e1.cargoid = c.id
+JOIN area a ON c.areaid = a.id
+JOIN preguntas_encuesta pe ON re.pregunta_id = pe.id
+JOIN dimensiones d ON pe.dimension_id = d.id
+
+## VW_BASE_RESPUESTAS_YUDI
+CREATE VIEW vw_base_respuestas_yudi AS
+SELECT
+    e1.cedula,
+    e1.nombre AS empleado,
+    c.cargo,
+    a.area,
+    e1.sede,
+    e2.nombre AS jefe,
+    MAX(CASE WHEN pe.dimension_id = 1 AND pe.id = 1 THEN re.respuesta END) AS "D1-1",
+    MAX(CASE WHEN pe.dimension_id = 1 AND pe.id = 2 THEN re.respuesta END) AS "D1-2",
+    MAX(CASE WHEN pe.dimension_id = 1 AND pe.id = 3 THEN re.respuesta END) AS "D1-3",
+    MAX(CASE WHEN pe.dimension_id = 1 AND pe.id = 4 THEN re.respuesta END) AS "D1-4",
+    MAX(CASE WHEN pe.dimension_id = 1 AND pe.id = 5 THEN re.respuesta END) AS "D1-5",
+
+    MAX(CASE WHEN pe.dimension_id = 2 AND pe.id = 6 THEN re.respuesta END) AS "D2-1",
+    MAX(CASE WHEN pe.dimension_id = 2 AND pe.id = 7 THEN re.respuesta END) AS "D2-2",
+    MAX(CASE WHEN pe.dimension_id = 2 AND pe.id = 8 THEN re.respuesta END) AS "D2-3",
+    MAX(CASE WHEN pe.dimension_id = 2 AND pe.id = 9 THEN re.respuesta END) AS "D2-4",
+    MAX(CASE WHEN pe.dimension_id = 2 AND pe.id = 10 THEN re.respuesta END) AS "D2-5",
+
+    MAX(CASE WHEN pe.dimension_id = 3 AND pe.id = 11 THEN re.respuesta END) AS "D3-1",
+    MAX(CASE WHEN pe.dimension_id = 3 AND pe.id = 12 THEN re.respuesta END) AS "D3-2",
+    MAX(CASE WHEN pe.dimension_id = 3 AND pe.id = 13 THEN re.respuesta END) AS "D3-3",
+    MAX(CASE WHEN pe.dimension_id = 3 AND pe.id = 14 THEN re.respuesta END) AS "D3-4",
+    MAX(CASE WHEN pe.dimension_id = 3 AND pe.id = 15 THEN re.respuesta END) AS "D3-5",
+
+    MAX(CASE WHEN pe.dimension_id = 4 AND pe.id = 16 THEN re.respuesta END) AS "D4-1",
+    MAX(CASE WHEN pe.dimension_id = 4 AND pe.id = 17 THEN re.respuesta END) AS "D4-2",
+    MAX(CASE WHEN pe.dimension_id = 4 AND pe.id = 18 THEN re.respuesta END) AS "D4-3",
+    MAX(CASE WHEN pe.dimension_id = 4 AND pe.id = 19 THEN re.respuesta END) AS "D4-4",
+    MAX(CASE WHEN pe.dimension_id = 4 AND pe.id = 20 THEN re.respuesta END) AS "D4-5",
+
+    MAX(CASE WHEN pe.dimension_id = 5 AND pe.id = 21 THEN re.respuesta END) AS "D5-1",
+    MAX(CASE WHEN pe.dimension_id = 5 AND pe.id = 22 THEN re.respuesta END) AS "D5-2",
+    MAX(CASE WHEN pe.dimension_id = 5 AND pe.id = 23 THEN re.respuesta END) AS "D5-3",
+    MAX(CASE WHEN pe.dimension_id = 5 AND pe.id = 24 THEN re.respuesta END) AS "D5-4",
+    MAX(CASE WHEN pe.dimension_id = 5 AND pe.id = 25 THEN re.respuesta END) AS "D5-5",
+
+    MAX(CASE WHEN pe.dimension_id = 6 AND pe.id = 26 THEN re.respuesta END) AS "D6-1",
+    MAX(CASE WHEN pe.dimension_id = 6 AND pe.id = 27 THEN re.respuesta END) AS "D6-2",
+    MAX(CASE WHEN pe.dimension_id = 6 AND pe.id = 28 THEN re.respuesta END) AS "D6-3",
+    MAX(CASE WHEN pe.dimension_id = 6 AND pe.id = 29 THEN re.respuesta END) AS "D6-4",
+    MAX(CASE WHEN pe.dimension_id = 6 AND pe.id = 30 THEN re.respuesta END) AS "D6-5",
+
+    MAX(CASE WHEN pe.dimension_id = 7 AND pe.id = 31 THEN re.respuesta END) AS "D7-1",
+    MAX(CASE WHEN pe.dimension_id = 7 AND pe.id = 32 THEN re.respuesta END) AS "D7-2",
+    MAX(CASE WHEN pe.dimension_id = 7 AND pe.id = 33 THEN re.respuesta END) AS "D7-3",
+    MAX(CASE WHEN pe.dimension_id = 7 AND pe.id = 34 THEN re.respuesta END) AS "D7-4",
+    MAX(CASE WHEN pe.dimension_id = 7 AND pe.id = 35 THEN re.respuesta END) AS "D7-5",
+
+    MAX(CASE WHEN pe.dimension_id = 8 AND pe.id = 36 THEN re.respuesta END) AS "D8-1",
+    MAX(CASE WHEN pe.dimension_id = 8 AND pe.id = 37 THEN re.respuesta END) AS "D8-2",
+    MAX(CASE WHEN pe.dimension_id = 8 AND pe.id = 38 THEN re.respuesta END) AS "D8-3",
+    MAX(CASE WHEN pe.dimension_id = 8 AND pe.id = 39 THEN re.respuesta END) AS "D8-4",
+    MAX(CASE WHEN pe.dimension_id = 8 AND pe.id = 40 THEN re.respuesta END) AS "D8-5",
+
+    MAX(CASE WHEN pe.dimension_id = 9 AND pe.id = 41 THEN re.respuesta END) AS "D9-1",
+    MAX(CASE WHEN pe.dimension_id = 9 AND pe.id = 42 THEN re.respuesta END) AS "D9-2",
+    MAX(CASE WHEN pe.dimension_id = 9 AND pe.id = 43 THEN re.respuesta END) AS "D9-3",
+    MAX(CASE WHEN pe.dimension_id = 9 AND pe.id = 44 THEN re.respuesta END) AS "D9-4",
+    MAX(CASE WHEN pe.dimension_id = 9 AND pe.id = 45 THEN re.respuesta END) AS "D9-5",
+
+    MAX(CASE WHEN pe.dimension_id = 10 AND pe.id = 46 THEN re.respuesta END) AS "D10-1",
+    MAX(CASE WHEN pe.dimension_id = 10 AND pe.id = 47 THEN re.respuesta END) AS "D10-2",
+    MAX(CASE WHEN pe.dimension_id = 10 AND pe.id = 48 THEN re.respuesta END) AS "D10-3",
+    MAX(CASE WHEN pe.dimension_id = 10 AND pe.id = 49 THEN re.respuesta END) AS "D10-4",
+    MAX(CASE WHEN pe.dimension_id = 10 AND pe.id = 50 THEN re.respuesta END) AS "D10-5",
+
+    MAX(CASE WHEN pe.dimension_id = 11 AND pe.id = 51 THEN re.respuesta END) AS "D11-1",
+    MAX(CASE WHEN pe.dimension_id = 11 AND pe.id = 52 THEN re.respuesta END) AS "D11-2",
+    MAX(CASE WHEN pe.dimension_id = 11 AND pe.id = 53 THEN re.respuesta END) AS "D11-3",
+    MAX(CASE WHEN pe.dimension_id = 11 AND pe.id = 54 THEN re.respuesta END) AS "D11-4",
+    MAX(CASE WHEN pe.dimension_id = 11 AND pe.id = 55 THEN re.respuesta END) AS "D11-5",
+
+    MAX(CASE WHEN pe.dimension_id = 12 AND pe.id = 56 THEN re.respuesta END) AS "D12-1",
+    MAX(CASE WHEN pe.dimension_id = 12 AND pe.id = 57 THEN re.respuesta END) AS "D12-2",
+    MAX(CASE WHEN pe.dimension_id = 12 AND pe.id = 58 THEN re.respuesta END) AS "D12-3",
+    MAX(CASE WHEN pe.dimension_id = 12 AND pe.id = 59 THEN re.respuesta END) AS "D12-4",
+    MAX(CASE WHEN pe.dimension_id = 12 AND pe.id = 60 THEN re.respuesta END) AS "D12-5",
+
+   MAX(CASE WHEN pe.dimension_id = 13 AND pe.id = 61 THEN re.respuesta END) AS "D13-1",
+   MAX(CASE WHEN pe.dimension_id = 13 AND pe.id = 62 THEN re.respuesta END) AS "D13-2",
+   MAX(CASE WHEN pe.dimension_id = 13 AND pe.id = 63 THEN re.respuesta END) AS "D13-3",
+   MAX(CASE WHEN pe.dimension_id = 13 AND pe.id = 64 THEN re.respuesta END) AS "D13-4"
+
+FROM respuestas_encuesta re
+JOIN empleados e1 ON re.empleado_id = e1.id
+JOIN empleados e2 ON re.jefe_id = e2.id
+JOIN cargo c ON e1.cargoid = c.id
+JOIN area a ON c.areaid = a.id
+JOIN preguntas_encuesta pe ON re.pregunta_id = pe.id
+JOIN dimensiones d ON pe.dimension_id = d.id
+GROUP BY e1.cedula, e1.nombre, c.cargo, a.area, e2.nombre
+
+## VW_PROMEDIO_RESPUESTAS_GENERAL
+CREATE VIEW vw_promedio_respuestas_general AS
+SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 1 THEN v."D1-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 1 THEN v."D1-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 1 THEN v."D1-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 1 THEN v."D1-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 1 THEN v."D1-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 1
+    WHERE
+        d.id = 1
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 2 THEN v."D2-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 2 THEN v."D2-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 2 THEN v."D2-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 2 THEN v."D2-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 2 THEN v."D2-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 2
+    WHERE
+        d.id = 2
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 3 THEN v."D3-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 3 THEN v."D3-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 3 THEN v."D3-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 3 THEN v."D3-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 3 THEN v."D3-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 3
+    WHERE
+        d.id = 3
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 4 THEN v."D4-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 4 THEN v."D4-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 4 THEN v."D4-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 4 THEN v."D4-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 4 THEN v."D4-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 4
+    WHERE
+        d.id = 4
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 5 THEN v."D5-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 5 THEN v."D5-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 5 THEN v."D5-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 5 THEN v."D5-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 5 THEN v."D5-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 5
+    WHERE
+        d.id = 5
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 6 THEN v."D6-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 6 THEN v."D6-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 6 THEN v."D6-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 6 THEN v."D6-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 6 THEN v."D6-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 6
+    WHERE
+        d.id = 6
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 7 THEN v."D7-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 7 THEN v."D7-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 7 THEN v."D7-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 7 THEN v."D7-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 7 THEN v."D7-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 7
+    WHERE
+        d.id = 7
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 8 THEN v."D8-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 8 THEN v."D8-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 8 THEN v."D8-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 8 THEN v."D8-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 8 THEN v."D8-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 8
+    WHERE
+        d.id = 8
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 9 THEN v."D9-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 9 THEN v."D9-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 9 THEN v."D9-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 9 THEN v."D9-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 9 THEN v."D9-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 9
+    WHERE
+        d.id = 9
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 10 THEN v."D10-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 10 THEN v."D10-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 10 THEN v."D10-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 10 THEN v."D10-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 10 THEN v."D10-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 10
+    WHERE
+        d.id = 10
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 11 THEN v."D11-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 11 THEN v."D11-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 11 THEN v."D11-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 11 THEN v."D11-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 11 THEN v."D11-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 11
+    WHERE
+        d.id = 11
+    GROUP BY
+        d.id, d.dimensiones
+
+UNION ALL
+
+    SELECT
+        d.id AS id,
+        d.dimensiones AS dimensiones,
+        ROUND(
+            (
+                (COALESCE(AVG(CASE WHEN d.id = 12 THEN v."D12-1" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 12 THEN v."D12-2" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 12 THEN v."D12-3" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 12 THEN v."D12-4" END), 0)) +
+                (COALESCE(AVG(CASE WHEN d.id = 12 THEN v."D12-5" END), 0))
+            ) / 5 * 100
+        ) AS promedio
+    FROM
+        dimensiones d
+    LEFT JOIN
+        vw_base_respuestas_yudi v
+        ON d.id = 12
+    WHERE
+        d.id = 12
+    GROUP BY
+        d.id, d.dimensiones
+
+ORDER BY
+    d.id ASC
+
+## VW_PROMEDIO_RESPUESTAS_POR_JEFE
+CREATE VIEW vw_promedio_respuestas_por_jefe AS
+SELECT
+    e2.id AS id,  -- ID del jefe
+    e2.nombre AS jefe,
+    d.dimensiones,
+    ROUND(AVG(re.respuesta) * 100) AS promedio_respuesta  -- Redondea al número entero más cercano
+FROM respuestas_encuesta re
+JOIN empleados e1 ON re.empleado_id = e1.id
+JOIN empleados e2 ON re.jefe_id = e2.id
+JOIN cargo c ON e1.cargoid = c.id
+JOIN area a ON c.areaid = a.id
+JOIN preguntas_encuesta pe ON re.pregunta_id = pe.id
+JOIN dimensiones d ON pe.dimension_id = d.id
+WHERE d.dimensiones != 'Preguntas Abiertas'  -- Excluir la dimensión 13
+GROUP BY e2.id, e2.nombre, d.dimensiones
+
+## VW_RESUMEN_PLAN_DE_ACCION
+CREATE VIEW vw_resumen_plan_de_accion as
+SELECT
+  e2.id AS id,
+  -- ID del jefe
+  e2.nombre AS jefe,
+  d.dimensiones,
+  AVG(re.respuesta) * 100 AS promedio_respuesta,
+  pda.sugerencia_1,
+  pda.sugerencia_2,
+  pda.periodo_inicial_1,
+  pda.periodo_final_1,
+  pda.periodo_inicial_2,
+  pda.periodo_final_2
+FROM
+  respuestas_encuesta re
+  JOIN empleados e1 ON re.empleado_id = e1.id
+  JOIN empleados e2 ON re.jefe_id = e2.id
+  JOIN cargo c ON e1.cargoid = c.id
+  JOIN area a ON c.areaid = a.id
+  JOIN preguntas_encuesta pe ON re.pregunta_id = pe.id
+  JOIN dimensiones d ON pe.dimension_id = d.id
+  JOIN planes_de_accion pda ON pda.empleado_id = e2.id
+  AND pda.dimension_id = d.id
+WHERE
+  d.dimensiones != 'Preguntas Abiertas'
+GROUP BY
+  e2.id,
+  e2.nombre,
+  d.dimensiones,
+  pda.sugerencia_1,
+  pda.sugerencia_2
+
+## VW_RESUMEN_PLAN_DE_ACCION_GENERAL
+CREATE VIEW vw_resumen_plan_de_accion_general AS
+SELECT
+    v.dimensiones,
+    v.promedio,
+    p.sugerencia_1 AS "Accion de mejora 1",
+    p.sugerencia_2 AS "Accion de mejora 2",
+    p.periodo_inicial_1 AS "Periodo Inicial 1",
+    p.periodo_final_1 AS "Periodo Final 1",
+    p.periodo_inicial_2 AS "Periodo Inicial 2",
+    p.periodo_final_2 AS "Periodo Final 2"
+FROM
+    vw_promedio_respuestas_general v
+JOIN
+    planes_de_accion_gerencia p
+ON
+    v.id = p.dimension_id
+
+## VW_RESUMEN_PLANES_LIDER
+CREATE VIEW vw_resumen_planes_lider AS
+SELECT
+    e.id,
+    e.cedula,
+    e.nombre,
+    COALESCE(dimensiones.count, 0) AS dimensiones,
+    COALESCE(planes.count, 0) AS planes
+FROM empleados e
+LEFT JOIN (
+    SELECT id, COUNT(*) AS count
+    FROM vw_promedio_respuestas_por_jefe
+    WHERE promedio_respuesta <= 74
+    GROUP BY id
+) dimensiones ON e.id = dimensiones.id
+LEFT JOIN (
+    SELECT empleado_id, COUNT(*) AS count
+    FROM planes_de_accion
+    GROUP BY empleado_id
+) planes ON e.id = planes.empleado_id
+

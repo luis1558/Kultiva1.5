@@ -12,96 +12,71 @@ import { useUserRole } from "../../../hooks/useUserRole";
 import React from "react";
 
 const links = [
-  { name: "Inicio", href: "/dashboard", icon: HomeIcon, roles: ["prueba"] },
+  {
+    name: "Inicio",
+    href: "/dashboard",
+    icon: HomeIcon,
+    roles: ["employee", "leader", "gerente", "admin"],
+  },
   {
     name: "Proteccion de datos",
     href: "/dashboard/instructivo",
     icon: DocumentCheckIcon,
-    roles: [],
+    roles: ["employee", "leader", "gerente", "admin"],
   },
 
   {
     name: "Resultados líder",
     href: "/dashboard/resultados-lider",
     icon: PresentationChartBarIcon,
-    roles: [
-      "Clearway Team Leader",
-      "Medical Records Team Lead",
-      "Credentialing Team Leader",
-      "Clearway Trainer",
-      "Team Leader",
-      "IT Professional",
-      "Gerente RH",
-      "Senior Account Manager",
-      "Gerente General",
-      "BIS Corporate Trainer",
-      "Team Leader",
-      "Account Manager",
-      "Asc Ops Team Leader",
-      "Qa & Trainer",
-      "prueba",
-    ],
+    roles: ["leader", "gerente", "admin"],
   },
   {
     name: "Resultados gerencia",
     href: "/dashboard/resultados-general",
     icon: PresentationChartBarIcon,
-    roles: ["Gerente RH", "Gerente General", "prueba"],
+    roles: ["gerente", "admin"],
   },
   {
     name: "Plan de acción líder",
     href: "/dashboard/plan-de-accion",
     icon: UserGroupIcon,
-    roles: [
-      "Clearway Team Leader",
-      "Medical Records Team Lead",
-      "Credentialing Team Leader",
-      "Clearway Trainer",
-      "Team Leader",
-      "IT Professional",
-      "Gerente RH",
-      "Senior Account Manager",
-      "Gerente General",
-      "BIS Corporate Trainer",
-      "Team Leader",
-      "Account Manager",
-      "Asc Ops Team Leader",
-      "Qa & Trainer",
-      "prueba",
-    ],
+    roles: ["leader", "gerente", "admin"],
   },
 
   {
     name: "Plan de acción gerencia",
     href: "/dashboard/plan-de-accion-gerencia",
     icon: UserGroupIcon,
-    roles: ["Gerente RH", "Gerente General", "prueba"],
+    roles: ["gerente", "admin"],
   },
 
   {
     name: "Preguntas Frecuentes",
     href: "/dashboard/preguntas-frecuentes",
     icon: QuestionMarkCircleIcon,
-    roles: ["prueba"],
+    roles: ["admin"],
   },
 
   {
     name: "Contacto",
     href: "/dashboard/contacto",
     icon: DocumentDuplicateIcon,
-    roles: ["prueba"],
+    roles: ["admin"],
   },
 ];
 
 export default function NavLinks({ onLinkClick }: { onLinkClick: () => void }) {
-  const { role } = useUserRole();
+  const { roles } = useUserRole();
   const pathname = usePathname();
 
   return (
     <>
       {links
         .filter(
-          (link) => link.roles.length === 0 || link.roles.includes(role || ""),
+          (link) =>
+            link.roles.length === 0 ||
+            link.roles.some((rol) => roles.includes(rol)),
         )
         .map((link) => {
           const LinkIcon = link.icon;
@@ -122,4 +97,3 @@ export default function NavLinks({ onLinkClick }: { onLinkClick: () => void }) {
     </>
   );
 }
-

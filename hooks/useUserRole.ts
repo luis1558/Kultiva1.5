@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export function useUserRole() {
-  const [role, setRole] = useState<string | null>(null);
+  const [roles, setRoles] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -10,9 +10,9 @@ export function useUserRole() {
         const res = await fetch("/api/user-role");
         if (res.ok) {
           const data = await res.json();
-          setRole(data.user.role);
+          setRoles(data.user.roles || []);
         } else {
-          console.error("Error al obtener el rol del usuario");
+          console.error("Error al obtener los roles del usuario");
         }
       } catch (error) {
         console.error("Error en la petición:", error);
@@ -24,5 +24,5 @@ export function useUserRole() {
     fetchUserRole();
   }, []);
 
-  return { role, loading };
+  return { roles, loading };
 }
