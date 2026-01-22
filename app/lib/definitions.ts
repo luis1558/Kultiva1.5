@@ -122,6 +122,17 @@ export type Area = {
   area: string;
 };
 
+// Tipo para vista gerencial anonimizada (sin nombres de empleados)
+export type MetricasEquipo = {
+  total_empleados: number;
+  empleados_respondieron: number;
+  empleados_pendientes: number;
+  empleados_no_responden: number; // Los que nunca van a responder
+  porcentaje_progreso: number;
+  estado_general: 'completo' | 'en_progreso' | 'critico';
+  ultima_actualizacion?: string;
+};
+
 export type SeguimientoResponse = {
   success: boolean;
   data: {
