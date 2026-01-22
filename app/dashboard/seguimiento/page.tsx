@@ -320,11 +320,7 @@ export default function SeguimientoPage() {
                           </>
                         )}
                       </span>
-                      {lider.porcentaje_progreso < 50 && (
-                        <span className="text-xs text-red-600 font-medium">
-                          Prioridad Alta
-                        </span>
-                      )}
+
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

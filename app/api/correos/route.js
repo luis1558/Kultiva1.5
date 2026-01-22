@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import fetch from "node-fetch";
-import { turso } from '../../seed/db';
+import { turso } from "../../seed/db";
 
 export async function POST(req) {
   try {
@@ -29,14 +29,14 @@ export async function POST(req) {
       console.warn("Correo no encontrado en el token");
       return new Response(
         JSON.stringify({ message: "Correo no encontrado en el token" }),
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // 🛑 Verificar si ya se envió el correo
     const checkResult = await turso.execute(
       `SELECT correo_enviado_plan FROM empleados WHERE correo = ?`,
-      [correoUsuario]
+      [correoUsuario],
     );
 
     const yaEnviado = checkResult.rows?.[0]?.correo_enviado_plan;
@@ -47,13 +47,11 @@ export async function POST(req) {
       });
     }
 
-
-
-    const correoGestionHumana = "mclaudia@thebisteam.com";
-    const correodos= "carolina.a@thebisteam.com"
+    const correoGestionHumana = "";
+    const correodos = "";
 
     console.log(
-      "Iniciando descarga del archivo Excel desde /api/download-plan"
+      "Iniciando descarga del archivo Excel desde /api/download-plan",
     );
     const excelResponse = await fetch(
       "https://kultiva-encuesta-de-clima.vercel.app/api/download-plan",
@@ -62,7 +60,7 @@ export async function POST(req) {
         headers: {
           Cookie: `token=${token}`,
         },
-      }
+      },
     );
 
     if (!excelResponse.ok) {
@@ -116,18 +114,18 @@ Agradecemos tu compromiso con la mejora del clima organizacional.
     // 🟢 Actualizar el estado en la base de datos
     await turso.execute(
       `UPDATE empleados SET correo_enviado_plan = TRUE WHERE correo = ?`,
-      [correoUsuario]
+      [correoUsuario],
     );
 
     return new Response(
       JSON.stringify({ message: "Correo enviado exitosamente" }),
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error al enviar el correo:", error);
     return new Response(
       JSON.stringify({ message: "Error al enviar el correo" }),
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

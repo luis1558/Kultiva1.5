@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/home/Luis_David/V\xeddeos/kultiva1.5/app/layout":["static/media/3e5cf33211ef6d1b-s.p.woff2","static/media/a50f9a2c50b5a675-s.p.woff2","static/media/904be59b21bd51cb-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/home/Luis_David/Vídeos/kultiva1.5/app/layout\":[\"static/media/3e5cf33211ef6d1b-s.p.woff2\",\"static/media/a50f9a2c50b5a675-s.p.woff2\",\"static/media/904be59b21bd51cb-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"

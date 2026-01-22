@@ -2,9 +2,10 @@
 import React, { useEffect, useState, JSX } from "react";
 import Link from "next/link";
 
-
 // Define la URL base usando variables de entorno
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "https://kultiva-encuesta-de-clima.vercel.app";
+const baseURL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://kultiva-encuesta-clima-lac.vercel.app";
 
 export default function PlandeaccionPage() {
   const [dimensionesData, setDimensionesData] = useState<
@@ -44,14 +45,14 @@ export default function PlandeaccionPage() {
 
         // Filtrar la dimensión número 13 (puedes ajustar este filtro según tu criterio)
         const filteredData = data.filter(
-          (row: any) => row.dimensiones !== "Preguntas Abiertas"
+          (row: any) => row.dimensiones !== "Preguntas Abiertas",
         ); // Filtra la dimensión por nombre
 
         setDimensionesData(
           filteredData.map((row: any) => ({
             dimension: row.dimensiones,
             promedio: row.promedio_respuesta,
-          }))
+          })),
         );
       } catch (err: any) {
         console.error(err);
@@ -85,7 +86,7 @@ export default function PlandeaccionPage() {
 
   const obtenerMensaje = (
     porcentaje: number,
-    dimension: string
+    dimension: string,
   ): JSX.Element => {
     if (porcentaje <= 74) {
       const link = dimensionesLinks[dimension];
@@ -131,43 +132,45 @@ export default function PlandeaccionPage() {
   return (
     <div className="p-6">
       <table className="table-auto w-full mt-8 border-collapse border border-gray-300">
-  <thead>
-    <tr className="bg-gray-200">
-      <th className="border border-gray-300 px-4 py-2 text-left w-1/4"> {/* Ajusta 'w-1/4' según el ancho deseado */}
-        Rangos de resultados
-      </th>
-      <th className="border border-gray-300 px-4 py-2 text-left">
-        Descripción
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td className="border border-gray-300 px-4 py-2 bg-red-300">
-        0% - 74%
-      </td>
-      <td className="border border-gray-300 px-4 py-2">
-        Zona de oportunidad
-      </td>
-    </tr>
-    <tr>
-      <td className="border border-gray-300 px-4 py-2 bg-yellow-300">
-        75% - 84%
-      </td>
-      <td className="border border-gray-300 px-4 py-2">
-        Zona de consolidación
-      </td>
-    </tr>
-    <tr>
-      <td className="border border-gray-300 px-4 py-2 bg-green-300">
-        85% - 100%
-      </td>
-      <td className="border border-gray-300 px-4 py-2">
-        Zona de excelencia
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="border border-gray-300 px-4 py-2 text-left w-1/4">
+              {" "}
+              {/* Ajusta 'w-1/4' según el ancho deseado */}
+              Rangos de resultados
+            </th>
+            <th className="border border-gray-300 px-4 py-2 text-left">
+              Descripción
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border border-gray-300 px-4 py-2 bg-red-300">
+              0% - 74%
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              Zona de oportunidad
+            </td>
+          </tr>
+          <tr>
+            <td className="border border-gray-300 px-4 py-2 bg-yellow-300">
+              75% - 84%
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              Zona de consolidación
+            </td>
+          </tr>
+          <tr>
+            <td className="border border-gray-300 px-4 py-2 bg-green-300">
+              85% - 100%
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              Zona de excelencia
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       <br />
       <br />
