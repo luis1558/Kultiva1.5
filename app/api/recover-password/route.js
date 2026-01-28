@@ -63,8 +63,9 @@ export async function POST(req) {
     });
 
     // URL de recuperación (ajustar para production)
-    const baseURL =
-      process.env.NODE_ENV === "production"
+    const baseURL = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NODE_ENV === "production"
         ? "https://kultiva-encuesta-clima.vercel.app"
         : "http://localhost:3000";
 
