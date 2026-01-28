@@ -1,8 +1,14 @@
 {
+  "/api/logout/route": "app/api/logout/route.js",
   "/api/login/route": "app/api/login/route.js",
   "/api/user/route": "app/api/user/route.js",
   "/api/user-role/route": "app/api/user-role/route.js",
-  "/api/seguimiento/route": "app/api/seguimiento/route.js",
+  "/api/check-respuestas/route": "app/api/check-respuestas/route.js",
+  "/api/preguntas/route": "app/api/preguntas/route.js",
+  "/page": "app/page.js",
+  "/login/page": "app/login/page.js",
+  "/reset-password/page": "app/reset-password/page.js",
+  "/dashboard/subir-empleados/page": "app/dashboard/subir-empleados/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/seguimiento/page": "app/dashboard/seguimiento/page.js"
+  "/dashboard/valoracion/page": "app/dashboard/valoracion/page.js"
 }
